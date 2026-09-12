@@ -1,5 +1,5 @@
 """
-Alerta de "0-0 al minuto 70" para las 5 grandes ligas europeas.
+Alerta de "0-0 al minuto 70" para las 5 grandes ligas europeas + Champions y Europa League.
 
 Revisa los partidos EN VIVO usando la API de API-Football y envia un mensaje
 de Telegram la primera vez que un partido llega al minuto objetivo (70 por
@@ -35,6 +35,8 @@ LIGAS_OBJETIVO = {
     ("Serie A", "Italy"),
     ("Bundesliga", "Germany"),
     ("Ligue 1", "France"),
+    ("UEFA Champions League", "World"),
+    ("UEFA Europa League", "World"),
 }
 
 STATE_FILE = "notified.json"
