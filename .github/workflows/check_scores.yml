@@ -1,0 +1,38 @@
+name: Alerta 0-0 minuto 70
+
+on:
+  schedule:
+    - cron: "*/10 9-23 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  revisar-marcadores:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run: pip install requests
+
+      - name: Revisar partidos en vivo
+        env:
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python alerta_futbol.py
+
+      - name: Guardar estado si cambio
+        run: |
+          if ! git diff --quiet -- notified.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add notified.json
+            git commit -m "Actualiza estado de notificaciones"
+            git push
+          fi
