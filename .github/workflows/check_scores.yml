@@ -2,6 +2,9 @@ name: Alerta 0-0 minuto 70
 
 on:
   schedule:
+    # cada 10 minutos, entre las 09:00 y las 23:00 UTC (cubre todos los
+    # horarios habituales de Premier League, La Liga, Serie A, Bundesliga
+    # y Ligue 1). Ajusta el rango si lo necesitas.
     - cron: "*/10 9-23 * * *"
   workflow_dispatch: {}
 
@@ -25,6 +28,9 @@ jobs:
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ICLOUD_EMAIL: ${{ secrets.ICLOUD_EMAIL }}
+          ICLOUD_APP_PASSWORD: ${{ secrets.ICLOUD_APP_PASSWORD }}
+          ICLOUD_TO: ${{ secrets.ICLOUD_TO }}
         run: python alerta_futbol.py
 
       - name: Guardar estado si cambio
